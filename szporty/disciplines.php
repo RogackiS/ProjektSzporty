@@ -20,7 +20,7 @@ require 'conn.php';
 		<ul>
             <li><a href="index.php">Start</a></li>
 			<li id="first" class="active"><a href="disciplines.php">Dyscypliny</a></li>
-			<li><a href="#2">Kluby</a></li>
+			<li><a href="clubs.php">Kluby</a></li>
 			<li><a href="#3">Zespoły</a></li>
 			<li><a href="#4">Organizacje</a></li>
 			<li><a href="#5">Stwarzyszenia</a></li>
