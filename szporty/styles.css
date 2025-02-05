@@ -174,3 +174,17 @@ h4
 	clear: both;
 	height: 1px;
 }
+
+table {
+    border: 1px solid black; /* Odpowiednik border='1' */
+    border-collapse: collapse; /* Zapewnia jednolity wygląd granic */
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid black; /* Dodaje obramowanie do każdej komórki */
+    padding: 10px; /* Odpowiednik cellpadding='10' */
+    text-align: left; /* Opcjonalnie: wyrównanie tekstu */
+}
+
+

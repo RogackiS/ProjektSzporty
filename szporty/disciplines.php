@@ -1,5 +1,49 @@
 <?php
-require 'conn.php';
+require_once 'conn.php';
+
+class Discipline {
+    private $pdo;
+
+    public function __construct(Database $db) {
+        $this->pdo = $db->getConnection();
+    }
+
+    public function getAllDisciplines() {
+        $sql = "SELECT * FROM disciplines";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function addDiscipline($name, $icon) {
+        $sql = "INSERT INTO disciplines (name, icon) VALUES (:name, :icon)";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute(['name' => $name, 'icon' => $icon]);
+    }
+}
+
+$db = new Database();
+$discipline = new Discipline($db);
+
+// Obsługa dodawania nowej dyscypliny
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['name'], $_POST['icon'])) {
+    $name = trim($_POST['name']);
+    $icon = trim($_POST['icon']);
+    
+    if (!empty($name) && !empty($icon)) {
+        $discipline->addDiscipline($name, $icon);
+        header("Location: disciplines.php"); // Odświeżenie strony po dodaniu
+        exit();
+    }
+}
+
+$records = $discipline->getAllDisciplines();
+
+$translations_pl = [
+    'id' => 'Id',
+    'name' => 'Nazwa dyscypliny',
+    'icon' => 'Ikona'
+];
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +58,6 @@ require 'conn.php';
 <body>
 	<div id="header">
 		<h1>Sportowiada! JSM</h1>
-		<!-- <h2>100% sportu. 0% sensacji.</h2> -->
 	</div>
 	<div id="menu">
 		<ul>
@@ -30,44 +73,30 @@ require 'conn.php';
 	<div id="container">
 		<div id="primarycontainer">
 			<div id="primarycontent">
-				<?php
-					
-					// Zapytanie SQL
-					$sql = "SELECT * FROM disciplines";
-					$stmt = $pdo->prepare($sql);
-					$stmt->execute();
-
-					// Pobranie wyników jako tablica asocjacyjna
-					$records = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-					// Tłumaczenie nagłówków kolumn
-					$translations_pl = [
-						'id' => 'Id',
-						'name' => 'Nazwa dyscypliny',
-						'icon' => 'Ikona'
-					];
-
-					// Wyświetlenie rekordów w tabeli HTML
-					echo "<table border='1' cellpadding='10'>";
-
-					// Nagłówki tabeli
-					echo "<tr>";
-					foreach ($translations_pl as $column => $translated) {
-						echo "<th>" . htmlspecialchars($translated) . "</th>";
-					}
-					echo "</tr>";
-
-					// Dane tabeli
-					foreach ($records as $row) {
-						echo "<tr>";
-						foreach (array_keys($translations_pl) as $column) {
-							echo "<td>" . htmlspecialchars($row[$column]) . "</td>";
-						}
-						echo "</tr>";
-					}
-
-					echo "</table>";
-				?>					
+				<h3>Dodaj nową dyscyplinę</h3>
+				<form method="POST" action="">
+					<label for="name">Nazwa:</label>
+					<input type="text" id="name" name="name" required>
+					<label for="icon">Ikona (URL):</label>
+					<input type="text" id="icon" name="icon" required>
+					<button type="submit">Dodaj</button>
+				</form>
+				</br></br>
+				<h2>Lista dyscyplin</h2>
+				<table>
+					<tr>
+						<?php foreach ($translations_pl as $translated): ?>
+							<th><?php echo htmlspecialchars($translated); ?></th>
+						<?php endforeach; ?>
+					</tr>
+					<?php foreach ($records as $row): ?>
+						<tr>
+							<?php foreach (array_keys($translations_pl) as $column): ?>
+								<td><?php echo htmlspecialchars($row[$column]); ?></td>
+							<?php endforeach; ?>
+						</tr>
+					<?php endforeach; ?>
+				</table>
 			</div>
 		</div>
 		<div id="secondarycontent"></div>
