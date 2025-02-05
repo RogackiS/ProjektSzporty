@@ -81,7 +81,7 @@ $translations_pl = [
 					<input type="text" id="icon" name="icon" required>
 					<button type="submit">Dodaj</button>
 				</form>
-				</br></br>
+				<br><br>
 				<h2>Lista dyscyplin</h2>
 				<table>
 					<tr>
