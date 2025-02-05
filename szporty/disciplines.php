@@ -38,72 +38,68 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['name'], $_POST['icon'
 }
 
 $records = $discipline->getAllDisciplines();
-
-$translations_pl = [
-    'id' => 'Id',
-    'name' => 'Nazwa dyscypliny',
-    'icon' => 'Ikona'
-];
 ?>
 
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="icon" href="favicon.ico" type="image/x-icon">
-	<link rel="stylesheet" href="styles.css">
-	<title>Sportowiada! JSM</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles.css">
+    <title>Sportowiada! JSM</title>
 </head>
 <body>
-	<div id="header">
-		<h1>Sportowiada! JSM</h1>
-	</div>
-	<div id="menu">
-		<ul>
+    <div id="header">
+        <h1>Sportowiada! JSM</h1>
+    </div>
+    <div id="menu">
+        <ul>
             <li><a href="index.php">Start</a></li>
-			<li id="first" class="active"><a href="disciplines.php">Dyscypliny</a></li>
-			<li><a href="clubs.php">Kluby</a></li>
-			<li><a href="#3">Zespoły</a></li>
-			<li><a href="#4">Organizacje</a></li>
-			<li><a href="#5">Stwarzyszenia</a></li>
-		</ul>
-		<div></div>
-	</div>
-	<div id="container">
-		<div id="primarycontainer">
-			<div id="primarycontent">
-				<h3>Dodaj nową dyscyplinę</h3>
-				<form method="POST" action="">
-					<label for="name">Nazwa:</label>
-					<input type="text" id="name" name="name" required>
-					<label for="icon">Ikona (URL):</label>
-					<input type="text" id="icon" name="icon" required>
-					<button type="submit">Dodaj</button>
-				</form>
-				<br><br>
-				<h2>Lista dyscyplin</h2>
-				<table>
-					<tr>
-						<?php foreach ($translations_pl as $translated): ?>
-							<th><?php echo htmlspecialchars($translated); ?></th>
-						<?php endforeach; ?>
-					</tr>
-					<?php foreach ($records as $row): ?>
-						<tr>
-							<?php foreach (array_keys($translations_pl) as $column): ?>
-								<td><?php echo htmlspecialchars($row[$column]); ?></td>
-							<?php endforeach; ?>
-						</tr>
-					<?php endforeach; ?>
-				</table>
-			</div>
-		</div>
-		<div id="secondarycontent"></div>
-		<div class="clearit"></div>
-	</div>
-	<div id="footer">
-		&copy; 2024 Rogacki! S.
-	</div>
+            <li id="first" class="active"><a href="disciplines.php">Dyscypliny</a></li>
+            <li><a href="clubs.php">Kluby</a></li>
+            <li><a href="#3">Zespoły</a></li>
+            <li><a href="#4">Organizacje</a></li>
+            <li><a href="#5">Stowarzyszenia</a></li>
+        </ul>
+        <div></div>
+    </div>
+    <div id="container">
+        <div id="primarycontainer">
+            <div id="primarycontent">
+                <h3>Dodaj nową dyscyplinę</h3>
+                <form method="POST" action="">
+                    <label for="name">Nazwa:</label>
+                    <input type="text" id="name" name="name" required>
+                    <label for="icon">Ikona (nazwa pliku):</label>
+                    <input type="text" id="icon" name="icon" required>
+                    <button type="submit">Dodaj</button>
+                </form>
+                <br><br>
+                <h2>Lista dyscyplin</h2>
+                <table>
+                    <tr>
+                        <th>Id</th>
+                        <th>Ikona</th>
+                        <th>Nazwa dyscypliny</th>
+                    </tr>
+                    <?php foreach ($records as $row): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($row['id']); ?></td>
+                            <td>
+                                <img src="media/icons_discipline/<?php echo htmlspecialchars($row['icon']); ?>" alt="Ikona" width="32" height="32">
+                            </td>
+                            <td><?php echo htmlspecialchars($row['name']); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
+            </div>
+        </div>
+        <div id="secondarycontent"></div>
+        <div class="clearit"></div>
+    </div>
+    <div id="footer">
+        &copy; 2024 Rogacki! S.
+    </div>
 </body>
 </html>
