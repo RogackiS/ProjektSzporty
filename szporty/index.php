@@ -1,6 +1,16 @@
 <?php
 require_once 'conn.php';
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+$database = new Database();
+$conn = $database->getConnection();
+
+if (!$conn) {
+    die("Błąd: brak połączenia z bazą danych.");
+}
+
 $db = new Database();
 $pdo = $db->getConnection();
 
@@ -29,11 +39,10 @@ while ($row = $query->fetch(PDO::FETCH_NUM)) {
 	<div id="menu">
 		<ul>
 			<li id="first" class="active"><a href="index.php">Start</a></li>
+			<li><a href="disciplines_type.php">Typy dyscyplin</a></li>
 			<li><a href="disciplines.php">Dyscypliny</a></li>
+			<li><a href="organizations.php">Organizacje</a></li>
 			<li><a href="clubs.php">Kluby</a></li>
-			<li><a href="teams.php">Zespoły</a></li>
-			<li><a href="#4">Organizacje</a></li>
-			<li><a href="#5">Stowarzyszenia</a></li>
 		</ul>
 		<div></div>
 	</div>
